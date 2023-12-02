@@ -35,9 +35,7 @@ public:
     };
 
     void Load(string filename);
-    Vehicle* Access(int i) {
-        return Registry::storage.at(i);
-    }
+    vector<Vehicle*> Access();
 
 private:
     vector<Vehicle*> storage;
@@ -107,4 +105,8 @@ void Registry::Load(string filename) {
         }
         catch(...) {}
     }
+}
+
+vector<Registry::Vehicle*> Registry::Access() {
+    return Registry::storage;
 }
