@@ -2,6 +2,7 @@
 #include <iostream>
 #include <queue>
 #include "registry.h"
+using namespace std;
 
 struct SplayTreeNode {
     Registry::Vehicle* vehicle;

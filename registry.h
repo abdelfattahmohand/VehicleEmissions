@@ -35,6 +35,9 @@ public:
     };
 
     void Load(string filename);
+    Vehicle* Access(int i) {
+        return Registry::storage.at(i);
+    }
 
 private:
     vector<Vehicle*> storage;
@@ -54,6 +57,7 @@ Registry::Vehicle::Vehicle() {
     this->combCO2 = 0;
 }
 
+// Citation: CoastalRangeGeoEarth Project by Nicholas Lloyd used for reference
 void Registry::Load(string filename) {
     ifstream file;
     file.open(filename);
@@ -99,6 +103,7 @@ void Registry::Load(string filename) {
             if (raw.at(16) == "Yes")
                 temp->smartWay = true;
             temp->combCO2 = stoi(raw.at(17));
+            storage.push_back(temp);
         }
         catch(...) {}
     }
