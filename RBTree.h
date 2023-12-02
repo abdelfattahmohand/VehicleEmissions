@@ -5,6 +5,9 @@
 
 using namespace std;
 
+// Citation: https://algorithmtutor.com/Data-Structures/Tree/Red-Black-Trees/
+// Citation: https://www.geeksforgeeks.org/c-program-red-black-tree-insertion/
+
 const bool RED = true;
 const bool BLACK = false;
 
