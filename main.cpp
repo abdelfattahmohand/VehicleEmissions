@@ -48,7 +48,7 @@ int main() {
     for (int i = 0; i < Registries.size(); i++) {
         for (int j = 0; j < Registries.at(i)->Access().size(); j++) {
             TreeRB->insert(*Registries.at(i)->Access().at(j));
-            //TreeSplay->insert(Data2014->Access().at(i)); // Fix: Exit Code -10737741819
+            //TreeSplay->insert(*Registries.at(i)->Access().at(j)); // Fix: Exit Code -10737741819
             // Inserts 1, but not multiple
         }
     }
