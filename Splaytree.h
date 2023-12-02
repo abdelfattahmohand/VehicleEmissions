@@ -4,6 +4,8 @@
 #include "registry.h"
 using namespace std;
 
+// Citation: https://algorithmtutor.com/Data-Structures/Tree/Splay-Trees/
+
 struct SplayTreeNode {
     Registry::Vehicle* vehicle;
     SplayTreeNode *left, *right, *parent;
@@ -28,13 +30,10 @@ public:
     void deleteTree(SplayTreeNode* node);
 
     // Member functions
-    void insert(Registry::Vehicle* vehicle);
+    void insert(const Registry::Vehicle& vehicle);
     Registry::Vehicle* search(const string& model, const string& transmission);
     void BFS() const;
 };
-
-#include "Splaytree.h"
-#include <queue>
 
 void SplayTree::rotateLeft(SplayTreeNode* &node) {
     if (node == nullptr || node->right == nullptr) return;  // Can't rotate left if node or node's right child is null
@@ -75,10 +74,10 @@ void SplayTree::rotateRight(SplayTreeNode* &node) {
 
     if (node->parent == nullptr) {          // node is the root
         root = leftChild;
-    } else if (node == node->parent->left) { // node is a left child
-        node->parent->left = leftChild;
-    } else {                                 // node is a right child
+    } else if (node == node->parent->right) { // node is a left child
         node->parent->right = leftChild;
+    } else {                                 // node is a right child
+        node->parent->left = leftChild;
     }
 
     leftChild->right = node;                // Place node on leftChild's right
@@ -93,7 +92,7 @@ void SplayTree::splay(SplayTreeNode* &node) {
             // Zig step: node has a parent but no grandparent
             if (node->parent->left == node) {
                 rotateRight(node->parent);  // Zig rotation
-            } else {
+            } else if (node->parent->right == node){
                 rotateLeft(node->parent);   // Zag rotation
             }
         } else if (node->parent->left == node && node->parent->parent->left == node->parent) {
@@ -107,25 +106,26 @@ void SplayTree::splay(SplayTreeNode* &node) {
         } else if (node->parent->right == node && node->parent->parent->left == node->parent) {
             // Zig-Zag step
             rotateLeft(node->parent);
-            rotateRight(node->parent);
-        } else {
+            rotateRight(node->parent->parent);
+        } else if (node->parent->left == node && node->parent->parent->right == node->parent){
             // Zig-Zag step (symmetric)
             rotateRight(node->parent);
-            rotateLeft(node->parent);
+            rotateLeft(node->parent->parent);
         }
     }
+    root = node;  // Update the root after splaying
 }
 
-void SplayTree::insert(Registry::Vehicle* vehicle) {
+void SplayTree::insert(const Registry::Vehicle& vehicle) {
     // Step 1: Perform standard BST insert
-    SplayTreeNode* newNode = new SplayTreeNode(vehicle);
+    SplayTreeNode* newNode = new SplayTreeNode(new Registry::Vehicle(vehicle)); // Deep copy
     SplayTreeNode* parentNode = nullptr;
     SplayTreeNode* current = root;
 
     // Find the correct parent for the new node
     while (current != nullptr) {
         parentNode = current;
-        if (vehicle->combCO2 < current->vehicle->combCO2) {
+        if (vehicle.combCO2 <= current->vehicle->combCO2) {
             current = current->left;
         } else {
             current = current->right;
@@ -139,7 +139,7 @@ void SplayTree::insert(Registry::Vehicle* vehicle) {
     if (parentNode == nullptr) {
         // The tree was empty, new node is root
         root = newNode;
-    } else if (vehicle->combCO2 < parentNode->vehicle->combCO2) {
+    } else if (vehicle.combCO2 < parentNode->vehicle->combCO2) {
         parentNode->left = newNode;
     } else {
         parentNode->right = newNode;
