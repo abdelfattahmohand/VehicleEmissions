@@ -37,8 +37,8 @@ public:
     void deleteTree(RBTreeNode* node);
 
     // Member functions
-    void insert(const Registry::Vehicle& vehicle);
-    Registry::Vehicle* search(const string& model, const string& transmission) const;
+    void insert(Registry::Vehicle* vehicle);
+    Registry::Vehicle* search(const string& model) const;
     void BFS() const;
 };
 
@@ -152,38 +152,50 @@ void RBTree::fixViolation(RBTreeNode* &root, RBTreeNode* &pt) {
     root->color = BLACK; // Keep the root always black
 }
 
-void RBTree::insert(const Registry::Vehicle& vehicle) {
-    // Create a new node
-    RBTreeNode *pt = new RBTreeNode(new Registry::Vehicle(vehicle));
+void RBTree::insert(Registry::Vehicle* vehicle) {
 
+    //cout << vehicle << endl;
     // Step 1: Perform standard BST insert
     RBTreeNode *parent = nullptr;
     RBTreeNode *current = root;
+    bool insert = true;
 
     // Find the parent node under which this new node will be inserted
     while (current != nullptr) {
         parent = current;
-        if (vehicle.combCO2 <= current->vehicle->combCO2) {  // Allow duplicates on left
+
+        if (vehicle->model == current->vehicle->model) {
+            //cout << current->vehicle->model << current->vehicle->combCO2 << " " << current->vehicle << endl;
+            current->vehicle->AddDuplicate(vehicle);
+            insert = false;
+            break;
+        }
+        else if (vehicle->model < current->vehicle->model) {  // Allow duplicates on left
             current = current->left;
         } else {
             current = current->right;
         }
     }
 
-    // Assign the parent to the new node
-    pt->parent = parent;
+    if (insert) {
+        // Create a new node
+        RBTreeNode *pt = new RBTreeNode(vehicle);
 
-    // If the tree is empty, the new node is the root
-    if (parent == nullptr) {
-        root = pt;
-    } else if (vehicle.combCO2 < parent->vehicle->combCO2) {
-        parent->left = pt;
-    } else {
-        parent->right = pt;
+        // Assign the parent to the new node
+        pt->parent = parent;
+
+        // If the tree is empty, the new node is the root
+        if (parent == nullptr) {
+            root = pt;
+        } else if (vehicle->model < parent->vehicle->model) {
+            parent->left = pt;
+        } else {
+            parent->right = pt;
+        }
+
+        // Step 2: Fix Red Black Tree violations
+        fixViolation(root, pt);
     }
-
-    // Step 2: Fix Red Black Tree violations
-    fixViolation(root, pt);
 }
 
 // BFS for debugging:
@@ -198,7 +210,7 @@ void RBTree::BFS() const {
         q.pop();
 
         // Process the current node
-        std::cout << current->vehicle->combCO2 << " (" << (current->color == RED ? "R" : "B") << ") ";
+        std::cout << current->vehicle->model << " (" << (current->color == RED ? "R" : "B") << ") ";
 
         // Enqueue left child
         if (current->left != nullptr) {
@@ -214,12 +226,13 @@ void RBTree::BFS() const {
     std::cout << std::endl;
 }
 
-Registry::Vehicle* RBTree::search(const string& model, const string& transmission) const {
+Registry::Vehicle* RBTree::search(const string& model) const {
     RBTreeNode* current = root;
 
     while (current != nullptr) {
-        if (model == current->vehicle->model && transmission == current->vehicle->transmission) {
-            return current->vehicle;  // Return the Vehicle object
+        if (model == current->vehicle->model) {
+            //cout << current->vehicle << endl;
+            return current->vehicle;
         }
             // Decide whether to go left or right, for example, based on model
         else if (model < current->vehicle->model) {
@@ -228,8 +241,7 @@ Registry::Vehicle* RBTree::search(const string& model, const string& transmissio
             current = current->right;
         }
     }
-
-    return nullptr;  // No matching node found
+    return nullptr;
 }
 
 void RBTree::deleteTree(RBTreeNode* node) {

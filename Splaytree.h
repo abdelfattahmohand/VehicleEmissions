@@ -18,8 +18,8 @@ private:
     SplayTreeNode* root;
 
     // Rotations
-    void rotateLeft(SplayTreeNode* &node);
-    void rotateRight(SplayTreeNode* &node);
+    void rotateLeft(SplayTreeNode* node);
+    void rotateRight(SplayTreeNode* node);
     void splay(SplayTreeNode* &node);
 
 public:
@@ -35,23 +35,23 @@ public:
     void BFS() const;
 };
 
-void SplayTree::rotateLeft(SplayTreeNode* &node) {
+void SplayTree::rotateLeft(SplayTreeNode* node) {
     if (node == nullptr || node->right == nullptr) return;  // Can't rotate left if node or node's right child is null
 
     SplayTreeNode* rightChild = node->right;   // rightChild is the right child of node
     node->right = rightChild->left;            // rightChild's left subtree becomes node's right subtree
-
     if (rightChild->left != nullptr) {
         rightChild->left->parent = node;       // Set parent of rightChild's left child (if exists)
     }
 
     rightChild->parent = node->parent;         // Link node's parent to rightChild
-
     if (node->parent == nullptr) {             // node is the root
         root = rightChild;
-    } else if (node == node->parent->left) {   // node is a left child
+    }
+    else if (node == node->parent->left) {   // node is a left child
         node->parent->left = rightChild;
-    } else {                                   // node is a right child
+    }
+    else {                                   // node is a right child
         node->parent->right = rightChild;
     }
 
@@ -60,7 +60,7 @@ void SplayTree::rotateLeft(SplayTreeNode* &node) {
 }
 
 // Rotate right is mirror of Rotate left
-void SplayTree::rotateRight(SplayTreeNode* &node) {
+void SplayTree::rotateRight(SplayTreeNode* node) {
     if (node == nullptr || node->left == nullptr) return;  // Can't rotate right if node or node's left child is null
 
     SplayTreeNode* leftChild = node->left;  // leftChild is the left child of node

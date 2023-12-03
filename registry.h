@@ -11,6 +11,8 @@ using namespace std;
 class Registry {
 public:
     struct Vehicle {
+        vector<Vehicle*> duplicates;
+
         string model;
         float disp;
         int cylinders;
@@ -31,6 +33,7 @@ public:
         bool smartWay;
         int combCO2;
 
+        void AddDuplicate(Vehicle* car);
         Vehicle();
     };
 
@@ -53,6 +56,10 @@ Registry::Vehicle::Vehicle() {
     this->ghgScore = 0;
     this->smartWay = false;
     this->combCO2 = 0;
+}
+
+void Registry::Vehicle::AddDuplicate(Vehicle* car) {
+    duplicates.push_back(car);
 }
 
 // Citation: CoastalRangeGeoEarth Project by Nicholas Lloyd used for reference
