@@ -128,7 +128,9 @@ int main() {
     getline(cin, car2);
 
     Registry::Vehicle* Test = RB->search(car1);
-    cout << "Model: " << Test->model << endl;
+
+    cout << "Car 1: ";
+    cout << Test->model << endl;
     cout << "Liters: " << Test->disp << endl;
     cout << "Cylinders: " << Test->cylinders << endl;
     if (Test->fourwd == true) {
@@ -160,8 +162,45 @@ int main() {
         cout << "No" << endl;
     }
     cout << "Combined CO2 Index: " << Test->combCO2 << endl;
+
     for (int i = 0; i < Test->duplicates.size(); i++) {
-        cout << Test->duplicates.at(i)->combCO2 << endl;
+        Registry::Vehicle* temp = Test->duplicates.at(i);
+
+        cout << endl;
+        cout << "Car " << i + 2 << ": ";
+
+        cout << temp->model << endl;
+        cout << "Liters: " << temp->disp << endl;
+        cout << "Cylinders: " << temp->cylinders << endl;
+        if (temp->fourwd == true) {
+            cout << "4WD" << endl;
+        } else {
+            cout << "2WD" << endl;
+        }
+        cout << "Fuel Type:" << temp->fuel << endl;
+        cout << "Authorized for sale in CA: ";
+        if (temp->salesCA == true) {
+            cout << "Yes" << endl;
+        } else {
+            cout << "No" << endl;
+        }
+        cout << "Standard: " << temp->standard ;
+        cout << " | Description: " << temp->stndDescription << endl;
+        cout << "Underhood ID: " << temp->underhoodID << endl;
+        cout << "Vehicle Class: " << temp->vehicleClass << endl;
+
+        cout << "All Polution Score: " << temp->allPolutionScore << endl;
+        cout << "City MPG: " << temp->cityMPG << endl;
+        cout << "HWY MPG: " << temp->hwyMPG << endl;
+        cout << "Combined MPG: " << temp->cmbMPG << endl;
+        cout << "Greenhouse Gas Score: " << temp->ghgScore << endl;
+        cout << "SmartWay Classified: ";
+        if (temp->smartWay == true) {
+            cout << "Yes" << endl;
+        } else {
+            cout << "No" << endl;
+        }
+        cout << "Combined CO2 Index: " << temp->combCO2 << endl;
     }
 
     cout << "Successful" << endl;
