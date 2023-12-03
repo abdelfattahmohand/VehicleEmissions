@@ -2,11 +2,15 @@
 #include "registry.h"
 #include "RBTree.h"
 #include "Splaytree.h"
+#include "EPAGrid.h"
 #include <string>
 #include <chrono>
 using namespace std;
 
 int main() {
+
+    EPAGrid* Grid = new EPAGrid();
+    Grid->Load("eGRID2021_summary_tables.csv");
 
     vector<Registry*> Registries;
 
@@ -122,6 +126,11 @@ int main() {
 
     bool exit = false;
     while (!exit){
+        cout << "What state do you live in? Input the 2 letter code in all caps: " << endl;
+        string st;
+        getline(cin, st);
+        EPAGrid::State* state = Grid->Access(st);
+
         cout << "How many cars would you like to search for? (1 or 2 cars, 0 to exit program): " << endl;
         string numCars;
         getline(cin, numCars);
@@ -178,7 +187,11 @@ int main() {
             } else {
                 cout << "No" << endl;
             }
-            cout << "Combined CO2 Index: " << RBTest1->combCO2 << endl;
+            if (RBTest1->fuel == "Electricity") {
+                cout << "Combined CO2 Index: " << Grid->GetCO2(state, RBTest1->cmbMPG) << endl;
+            } else {
+                cout << "Combined CO2 Index: " << RBTest1->combCO2 << endl;
+            }
 
             for (int i = 0; i < RBTest1->duplicates.size(); i++) {
                 Registry::Vehicle* temp = RBTest1->duplicates.at(i);
@@ -217,7 +230,11 @@ int main() {
                 } else {
                     cout << "No" << endl;
                 }
-                cout << "Combined CO2 Index: " << temp->combCO2 << endl;
+                if (temp->fuel == "Electricity") {
+                    cout << "Combined CO2 Index: " << Grid->GetCO2(state, temp->cmbMPG) << endl;
+                } else {
+                    cout << "Combined CO2 Index: " << temp->combCO2 << endl;
+                }
             }
 
             cout << endl << "Time it took to search for car (R/B tree): " << RBDur.count() << " nanoseconds" << endl;
@@ -328,7 +345,11 @@ int main() {
                 } else {
                     cout << "No" << endl;
                 }
-                cout << "Combined CO2 Index: " << temp->combCO2 << endl;
+                if (temp->fuel == "Electricity") {
+                    cout << "Combined CO2 Index: " << Grid->GetCO2(state, temp->cmbMPG) << endl;
+                } else {
+                    cout << "Combined CO2 Index: " << temp->combCO2 << endl;
+                }
             }
 
             // Same search in R/B and Splay - Car 2
@@ -374,7 +395,11 @@ int main() {
             } else {
                 cout << "No" << endl;
             }
-            cout << "Combined CO2 Index: " << RBTest2->combCO2 << endl;
+            if (RBTest2->fuel == "Electricity") {
+                cout << "Combined CO2 Index: " << Grid->GetCO2(state, RBTest2->cmbMPG) << endl;
+            } else {
+                cout << "Combined CO2 Index: " << RBTest2->combCO2 << endl;
+            }
 
             for (int i = 0; i < RBTest2->duplicates.size(); i++) {
                 Registry::Vehicle* temp = RBTest2->duplicates.at(i);
@@ -413,7 +438,11 @@ int main() {
                 } else {
                     cout << "No" << endl;
                 }
-                cout << "Combined CO2 Index: " << temp->combCO2 << endl;
+                if (RBTest2->fuel == "Electricity") {
+                    cout << "Combined CO2 Index: " << Grid->GetCO2(state, RBTest2->cmbMPG) << endl;
+                } else {
+                    cout << "Combined CO2 Index: " << RBTest2->combCO2 << endl;
+                }
             }
 
             cout << endl << "Time it took to search for car 1 (R/B tree): " << RBDur1.count() << " nanoseconds" << endl;

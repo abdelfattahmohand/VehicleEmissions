@@ -7,4 +7,5 @@ add_executable(Project3VehicleEmissions main.cpp
         registry.h
         RBTree.h
         RBTree.cpp
-        Splaytree.h)
+        Splaytree.h
+        EPAGrid.h)

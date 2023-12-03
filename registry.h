@@ -6,6 +6,7 @@
 #include <iomanip>
 #include <vector>
 #include <cmath>
+#include "EPAGrid.h"
 using namespace std;
 
 class Registry {
@@ -14,8 +15,8 @@ public:
         vector<Vehicle*> duplicates;
 
         string model;
-        float disp;
-        int cylinders;
+        string disp;
+        string cylinders;
         string transmission;
         bool fourwd;
         string fuel;
@@ -34,6 +35,7 @@ public:
         int combCO2;
 
         void AddDuplicate(Vehicle* car);
+        string stateGiven;
         Vehicle();
     };
 
@@ -45,8 +47,8 @@ private:
 };
 
 Registry::Vehicle::Vehicle() {
-    this->disp = 0.0;
-    this->cylinders = 0;
+    this->disp = "0.0";
+    this->cylinders = "0";
     this->fourwd = false;
     this->salesCA = false;
     this->allPolutionScore = 0;
@@ -87,8 +89,8 @@ void Registry::Load(string filename) {
         }
         try {
             temp->model = raw.at(0);
-            temp->disp = stof(raw.at(1));
-            temp->cylinders = stoi(raw.at(2));
+            temp->disp = raw.at(1);
+            temp->cylinders = raw.at(2);
             temp->transmission = raw.at(3);
             if (raw.at(4) == "4WD")
                 temp->fourwd = true;
@@ -105,7 +107,7 @@ void Registry::Load(string filename) {
             temp->hwyMPG = stoi(raw.at(13));
             temp->cmbMPG = stoi(raw.at(14));
             temp->ghgScore = stoi(raw.at(15));
-            if (raw.at(16) == "Yes")
+            if (raw.at(16) == "Yes" || raw.at(16) == "Elite")
                 temp->smartWay = true;
             temp->combCO2 = stoi(raw.at(17));
             storage.push_back(temp);
