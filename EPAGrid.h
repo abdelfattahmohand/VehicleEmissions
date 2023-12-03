@@ -8,6 +8,7 @@
 #include <cmath>
 using namespace std;
 
+// Citation: EPA Grid Data from https://www.epa.gov/egrid/summary-data
 class EPAGrid {
 public:
     struct State {
