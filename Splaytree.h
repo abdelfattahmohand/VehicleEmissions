@@ -5,6 +5,7 @@
 using namespace std;
 
 // Citation: https://algorithmtutor.com/Data-Structures/Tree/Splay-Trees/
+// Citation: https://www.tutorialspoint.com/cplusplus-program-to-implement-splay-tree
 
 struct SplayTreeNode {
     Registry::Vehicle* vehicle;
@@ -30,8 +31,8 @@ public:
     void deleteTree(SplayTreeNode* node);
 
     // Member functions
-    void insert(const Registry::Vehicle& vehicle);
-    Registry::Vehicle* search(const string& model, const string& transmission);
+    void insert(Registry::Vehicle* vehicle);
+    Registry::Vehicle* search(const string& model);
     void BFS() const;
 };
 
@@ -116,40 +117,49 @@ void SplayTree::splay(SplayTreeNode* &node) {
     root = node;  // Update the root after splaying
 }
 
-void SplayTree::insert(const Registry::Vehicle& vehicle) {
+void SplayTree::insert(Registry::Vehicle* vehicle) {
     // Step 1: Perform standard BST insert
-    SplayTreeNode* newNode = new SplayTreeNode(new Registry::Vehicle(vehicle)); // Deep copy
     SplayTreeNode* parentNode = nullptr;
     SplayTreeNode* current = root;
+    bool insert = true;
 
-    // Find the correct parent for the new node
+    // Find the correct parent for the new node or find a duplicate
     while (current != nullptr) {
         parentNode = current;
-        if (vehicle.combCO2 <= current->vehicle->combCO2) {
+
+        if (vehicle->model == current->vehicle->model) {
+            current->vehicle->AddDuplicate(vehicle);
+            insert = false; // No need to insert a new node, delete the created one
+            break;
+        } else if (vehicle->model < current->vehicle->model) {
             current = current->left;
         } else {
             current = current->right;
         }
     }
 
-    // parentNode is the parent of the new node
-    newNode->parent = parentNode;
+    if(insert){
+        // Create a new node only if no duplicate was found
+        SplayTreeNode* newNode = new SplayTreeNode(vehicle); // Deep copy
 
-    // Determine which child of the parent new node will be
-    if (parentNode == nullptr) {
-        // The tree was empty, new node is root
-        root = newNode;
-    } else if (vehicle.combCO2 < parentNode->vehicle->combCO2) {
-        parentNode->left = newNode;
-    } else {
-        parentNode->right = newNode;
+        // parentNode is the parent of the new node
+        newNode->parent = parentNode;
+
+        // Determine which child of the parent new node will be
+        if (parentNode == nullptr) {
+            root = newNode; // The tree was empty, new node is root
+        } else if (vehicle->model < parentNode->vehicle->model) {
+            parentNode->left = newNode;
+        } else {
+            parentNode->right = newNode;
+        }
+
+        // Step 2: Splay the tree at the newly inserted node
+        splay(newNode);
     }
-
-    // Step 2: Splay the tree at the newly inserted node
-    splay(newNode);
 }
 
-Registry::Vehicle* SplayTree::search(const string& model, const string& transmission) {
+Registry::Vehicle* SplayTree::search(const string& model) {
     SplayTreeNode* current = root;
     SplayTreeNode* lastVisited = nullptr;
 
@@ -157,13 +167,8 @@ Registry::Vehicle* SplayTree::search(const string& model, const string& transmis
         lastVisited = current;
 
         if (model == current->vehicle->model) {
-            if (transmission == current->vehicle->transmission) {
-                splay(current);  // Splay at the found node
-                return current->vehicle;  // Return the Vehicle object
-            } else {
-                // Model matches but transmission doesn't; decide direction
-                current = (transmission < current->vehicle->transmission) ? current->left : current->right;
-            }
+            splay(current);  // Splay at the found node
+            return current->vehicle;  // Return the Vehicle object
         } else {
             // Decide whether to go left or right based on model
             current = (model < current->vehicle->model) ? current->left : current->right;
@@ -172,6 +177,7 @@ Registry::Vehicle* SplayTree::search(const string& model, const string& transmis
 
     // Splay at the last visited node if the exact vehicle isn't found
     if (lastVisited != nullptr) {
+
         splay(lastVisited);
     }
 
