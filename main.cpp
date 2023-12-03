@@ -12,7 +12,7 @@ int main() {
 
     // Data sourced from: https://www.fueleconomy.gov/feg/download.shtml
     Registry* Data2014 = new Registry();
-    Data2014->Load("C:\\Users\\zayns\\CLionProjects\\DSAP3\\epa2014.csv");
+    Data2014->Load("epa2014.csv");
     Registries.push_back(Data2014);
     Registry* Data2015 = new Registry();
     Data2015->Load("epa2015.csv");
@@ -144,7 +144,7 @@ int main() {
             auto SplayStart = chrono::high_resolution_clock::now();
             Registry::Vehicle* SplayTest1 = Splay->search(car1);
             auto SplayStop = chrono::high_resolution_clock::now();
-            auto SplayDur = chrono::duration_cast<chrono::nanoseconds>(RBStop - RBStart);
+            auto SplayDur = chrono::duration_cast<chrono::nanoseconds>(SplayStop - SplayStart);
 
             cout << endl << "------ Car: ";
             cout << RBTest1->model << " ------" << endl;
@@ -221,7 +221,18 @@ int main() {
             }
 
             cout << endl << "Time it took to search for car (R/B tree): " << RBDur.count() << " nanoseconds" << endl;
-            cout << "Time it took to cearch for car (Splay tree): " << SplayDur.count() << " nanoseconds" << endl;
+            cout << "Time it took to search for car (Splay tree): " << SplayDur.count() << " nanoseconds" << endl;
+
+            // Calculate speedups
+            if (RBDur.count() > SplayDur.count()){
+                double improvement = ((double)RBDur.count() - SplayDur.count()) / RBDur.count() * 100.0;
+                cout << "Splay Tree search was " << fixed << setprecision(2) << improvement << "% faster than Red-Black Tree search!" << endl;
+            } else if (RBDur.count() < SplayDur.count()){
+                double improvement = ((double)SplayDur.count() - RBDur.count()) / SplayDur.count() * 100.0;
+                cout << "Red-Black Tree search was " << fixed << setprecision(2) << improvement << "% faster than Splay Tree search!" << endl;
+            } else{
+                cout << "Both searches took the exact same time! Wow!" << endl;
+            }
         }
 
         // USER INTERFACE FOR 2 CAR SEARCH
@@ -406,9 +417,31 @@ int main() {
             }
 
             cout << endl << "Time it took to search for car 1 (R/B tree): " << RBDur1.count() << " nanoseconds" << endl;
-            cout << "Time it took to cearch for car 1 (Splay tree): " << SplayDur1.count() << " nanoseconds" << endl;
+            cout << "Time it took to search for car 1 (Splay tree): " << SplayDur1.count() << " nanoseconds" << endl;
+
+            // Calculate speedups
+            if (RBDur1.count() > SplayDur1.count()){
+                double improvement = ((double)RBDur1.count() - SplayDur1.count()) / RBDur1.count() * 100.0;
+                cout << "Splay Tree search was " << fixed << setprecision(2) << improvement << "% faster than Red-Black Tree search for Car 1!" << endl;
+            } else if (RBDur1.count() < SplayDur1.count()){
+                double improvement = ((double)SplayDur1.count() - RBDur1.count()) / SplayDur1.count() * 100.0;
+                cout << "Red-Black Tree search was " << fixed << setprecision(2) << improvement << "% faster than Splay Tree search for Car 1!" << endl;
+            } else{
+                cout << "Both searches took the exact same time! Wow!" << endl;
+            }
+
             cout << endl << "Time it took to search for car 2 (R/B tree): " << RBDur2.count() << " nanoseconds" << endl;
-            cout << "Time it took to cearch for car 2 (Splay tree): " << SplayDur2.count() << " nanoseconds" << endl;
+            cout << "Time it took to search for car 2 (Splay tree): " << SplayDur2.count() << " nanoseconds" << endl;
+
+            if (RBDur2.count() > SplayDur2.count()){
+                double improvement = ((double)RBDur2.count() - SplayDur2.count()) / RBDur2.count() * 100.0;
+                cout << "Splay Tree search was " << fixed << setprecision(2) << improvement << "% faster than Red-Black Tree search for Car 2!" << endl;
+            } else if (RBDur2.count() < SplayDur2.count()){
+                double improvement = ((double)SplayDur2.count() - RBDur2.count()) / SplayDur2.count() * 100.0;
+                cout << "Red-Black Tree search was " << fixed << setprecision(2) << improvement << "% faster than Splay Tree search for Car 2!" << endl;
+            } else{
+                cout << "Both searches took the exact same time! Wow!" << endl;
+            }
         }
         cout << endl << endl;
     }
