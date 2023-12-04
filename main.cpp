@@ -10,57 +10,55 @@ using namespace std;
 int main() {
 
     EPAGrid* Grid = new EPAGrid();
-    Grid->Load("eGRID2021_summary_tables.csv");
+    Grid->Load("C:\\Users\\zayns\\CLionProjects\\DSAP3\\eGRID2021_summary_tables.csv");
 
     vector<Registry*> Registries;
 
     // Data sourced from: https://www.fueleconomy.gov/feg/download.shtml
     Registry* Data2014 = new Registry();
-    Data2014->Load("epa2014.csv");
+    Data2014->Load("C:\\Users\\zayns\\CLionProjects\\DSAP3\\epa2014.csv");
     Registries.push_back(Data2014);
-    
+
     Registry* Data2015 = new Registry();
     Data2015->Load("epa2015.csv");
     Registries.push_back(Data2015);
-    
+
     Registry* Data2016 = new Registry();
     Data2016->Load("epa2016.csv");
     Registries.push_back(Data2016);
-    
+
     Registry* Data2017 = new Registry();
     Data2017->Load("epa2017.csv");
     Registries.push_back(Data2017);
-    
+
     Registry* Data2018 = new Registry();
     Data2018->Load("epa2018.csv");
     Registries.push_back(Data2018);
-    
+
     Registry* Data2019 = new Registry();
     Data2019->Load("epa2019.csv");
     Registries.push_back(Data2019);
-    
+
     Registry* Data2020 = new Registry();
     Data2020->Load("epa2020.csv");
     Registries.push_back(Data2020);
-    
+
     Registry* Data2021 = new Registry();
     Data2021->Load("epa2021.csv");
     Registries.push_back(Data2021);
-    
+
     Registry* Data2022 = new Registry();
     Data2022->Load("epa2022.csv");
     Registries.push_back(Data2022);
-    
+
     Registry* Data2023 = new Registry();
     Data2023->Load("epa2023.csv");
     Registries.push_back(Data2023);
-    
+
     Registry* Data2024 = new Registry();
     Data2024->Load("epa2024.csv");
     Registries.push_back(Data2024);
 
-    
-    // Making trees for different years
     vector<RBTree*> rbTrees;
     vector<SplayTree*> splayTrees;
 
@@ -166,100 +164,108 @@ int main() {
             auto SplayStop = chrono::high_resolution_clock::now();
             auto SplayDur = chrono::duration_cast<chrono::nanoseconds>(SplayStop - SplayStart);
 
-            cout << endl << "------ Car: ";
-            cout << RBTest1->model << " ------" << endl;
-            cout << "Liters: " << RBTest1->disp << endl;
-            cout << "Cylinders: " << RBTest1->cylinders << endl;
-            if (RBTest1->fourwd == true) {
-                cout << "4WD" << endl;
-            } else {
-                cout << "2WD" << endl;
-            }
-            cout << "Fuel Type:" << RBTest1->fuel << endl;
-            cout << "Authorized for sale in CA: ";
-            if (RBTest1->salesCA == true) {
-                cout << "Yes" << endl;
-            } else {
-                cout << "No" << endl;
-            }
-            cout << "Standard: " << RBTest1->standard ;
-            cout << " | Description: " << RBTest1->stndDescription << endl;
-            cout << "Underhood ID: " << RBTest1->underhoodID << endl;
-            cout << "Vehicle Class: " << RBTest1->vehicleClass << endl;
-
-            cout << "All Polution Score: " << RBTest1->allPolutionScore << endl;
-            cout << "City MPG: " << RBTest1->cityMPG << endl;
-            cout << "HWY MPG: " << RBTest1->hwyMPG << endl;
-            cout << "Combined MPG: " << RBTest1->cmbMPG << endl;
-            cout << "Greenhouse Gas Score: " << RBTest1->ghgScore << endl;
-            cout << "SmartWay Classified: ";
-            if (RBTest1->smartWay == true) {
-                cout << "Yes" << endl;
-            } else {
-                cout << "No" << endl;
-            }
-            if (RBTest1->fuel == "Electricity") {
-                cout << "Combined CO2 Index: " << Grid->GetCO2(state, RBTest1->cmbMPG) << endl;
-            } else {
-                cout << "Combined CO2 Index: " << RBTest1->combCO2 << endl;
-            }
-
-            for (int i = 0; i < RBTest1->duplicates.size(); i++) {
-                Registry::Vehicle* temp = RBTest1->duplicates.at(i);
-
-                cout << endl;
-                cout << "-- Other car with the same Model " << i + 1 << ": ";
-
-                cout << temp->model << endl;
-                cout << "Liters: " << temp->disp << endl;
-                cout << "Cylinders: " << temp->cylinders << endl;
-                if (temp->fourwd == true) {
+            // Print out search results
+            if(RBTest1!= nullptr){
+                cout << endl << "------ Car: ";
+                cout << RBTest1->model << " ------" << endl;
+                cout << "Liters: " << RBTest1->disp << endl;
+                cout << "Cylinders: " << RBTest1->cylinders << endl;
+                if (RBTest1->fourwd == true) {
                     cout << "4WD" << endl;
                 } else {
                     cout << "2WD" << endl;
                 }
-                cout << "Fuel Type:" << temp->fuel << endl;
+                cout << "Fuel Type:" << RBTest1->fuel << endl;
                 cout << "Authorized for sale in CA: ";
-                if (temp->salesCA == true) {
+                if (RBTest1->salesCA == true) {
                     cout << "Yes" << endl;
                 } else {
                     cout << "No" << endl;
                 }
-                cout << "Standard: " << temp->standard ;
-                cout << " | Description: " << temp->stndDescription << endl;
-                cout << "Underhood ID: " << temp->underhoodID << endl;
-                cout << "Vehicle Class: " << temp->vehicleClass << endl;
+                cout << "Standard: " << RBTest1->standard ;
+                cout << " | Description: " << RBTest1->stndDescription << endl;
+                cout << "Underhood ID: " << RBTest1->underhoodID << endl;
+                cout << "Vehicle Class: " << RBTest1->vehicleClass << endl;
 
-                cout << "All Polution Score: " << temp->allPolutionScore << endl;
-                cout << "City MPG: " << temp->cityMPG << endl;
-                cout << "HWY MPG: " << temp->hwyMPG << endl;
-                cout << "Combined MPG: " << temp->cmbMPG << endl;
-                cout << "Greenhouse Gas Score: " << temp->ghgScore << endl;
+                cout << "All Polution Score: " << RBTest1->allPolutionScore << endl;
+                cout << "City MPG: " << RBTest1->cityMPG << endl;
+                cout << "HWY MPG: " << RBTest1->hwyMPG << endl;
+                cout << "Combined MPG: " << RBTest1->cmbMPG << endl;
+                cout << "Greenhouse Gas Score: " << RBTest1->ghgScore << endl;
                 cout << "SmartWay Classified: ";
-                if (temp->smartWay == true) {
+                if (RBTest1->smartWay == true) {
                     cout << "Yes" << endl;
                 } else {
                     cout << "No" << endl;
                 }
-                if (temp->fuel == "Electricity") {
-                    cout << "Combined CO2 Index: " << Grid->GetCO2(state, temp->cmbMPG) << endl;
+                if (RBTest1->fuel == "Electricity") {
+                    cout << "Combined CO2 Index: " << Grid->GetCO2(state, RBTest1->cmbMPG) << endl;
                 } else {
-                    cout << "Combined CO2 Index: " << temp->combCO2 << endl;
+                    cout << "Combined CO2 Index: " << RBTest1->combCO2 << endl;
+                }
+
+                for (int i = 0; i < RBTest1->duplicates.size(); i++) {
+                    Registry::Vehicle* temp = RBTest1->duplicates.at(i);
+
+                    cout << endl;
+                    cout << "-- Other car with the same Model " << i + 1 << ": ";
+
+                    cout << temp->model << endl;
+                    cout << "Liters: " << temp->disp << endl;
+                    cout << "Cylinders: " << temp->cylinders << endl;
+                    if (temp->fourwd == true) {
+                        cout << "4WD" << endl;
+                    } else {
+                        cout << "2WD" << endl;
+                    }
+                    cout << "Fuel Type:" << temp->fuel << endl;
+                    cout << "Authorized for sale in CA: ";
+                    if (temp->salesCA == true) {
+                        cout << "Yes" << endl;
+                    } else {
+                        cout << "No" << endl;
+                    }
+                    cout << "Standard: " << temp->standard ;
+                    cout << " | Description: " << temp->stndDescription << endl;
+                    cout << "Underhood ID: " << temp->underhoodID << endl;
+                    cout << "Vehicle Class: " << temp->vehicleClass << endl;
+
+                    cout << "All Polution Score: " << temp->allPolutionScore << endl;
+                    cout << "City MPG: " << temp->cityMPG << endl;
+                    cout << "HWY MPG: " << temp->hwyMPG << endl;
+                    cout << "Combined MPG: " << temp->cmbMPG << endl;
+                    cout << "Greenhouse Gas Score: " << temp->ghgScore << endl;
+                    cout << "SmartWay Classified: ";
+                    if (temp->smartWay == true) {
+                        cout << "Yes" << endl;
+                    } else {
+                        cout << "No" << endl;
+                    }
+                    if (temp->fuel == "Electricity") {
+                        cout << "Combined CO2 Index: " << Grid->GetCO2(state, temp->cmbMPG) << endl;
+                    } else {
+                        cout << "Combined CO2 Index: " << temp->combCO2 << endl;
+                    }
+                }
+
+                cout << endl << "Time it took to search for car (R/B tree): " << RBDur.count() << " nanoseconds" << endl;
+                cout << "Time it took to search for car (Splay tree): " << SplayDur.count() << " nanoseconds" << endl;
+
+                // Calculate speedups
+                if (RBDur.count() > SplayDur.count()){
+                    double improvement = ((double)RBDur.count() - SplayDur.count()) / RBDur.count() * 100.0;
+                    cout << "Splay Tree search was " << fixed << setprecision(2) << improvement << "% faster than Red-Black Tree search!" << endl;
+                } else if (RBDur.count() < SplayDur.count()){
+                    double improvement = ((double)SplayDur.count() - RBDur.count()) / SplayDur.count() * 100.0;
+                    cout << "Red-Black Tree search was " << fixed << setprecision(2) << improvement << "% faster than Splay Tree search!" << endl;
+                } else{
+                    cout << "Both searches took the exact same time! Wow!" << endl;
                 }
             }
 
-            cout << endl << "Time it took to search for car (R/B tree): " << RBDur.count() << " nanoseconds" << endl;
-            cout << "Time it took to search for car (Splay tree): " << SplayDur.count() << " nanoseconds" << endl;
-
-            // Calculate speedups
-            if (RBDur.count() > SplayDur.count()){
-                double improvement = ((double)RBDur.count() - SplayDur.count()) / RBDur.count() * 100.0;
-                cout << "Splay Tree search was " << fixed << setprecision(2) << improvement << "% faster than Red-Black Tree search!" << endl;
-            } else if (RBDur.count() < SplayDur.count()){
-                double improvement = ((double)SplayDur.count() - RBDur.count()) / SplayDur.count() * 100.0;
-                cout << "Red-Black Tree search was " << fixed << setprecision(2) << improvement << "% faster than Splay Tree search!" << endl;
-            } else{
-                cout << "Both searches took the exact same time! Wow!" << endl;
+            // If car is not found
+            else{
+                cout << "Sorry, that car is not in our database, try again" << endl << endl;
             }
         }
 
@@ -285,83 +291,90 @@ int main() {
             auto SplayStop = chrono::high_resolution_clock::now();
             auto SplayDur1 = chrono::duration_cast<chrono::nanoseconds>(SplayStop - SplayStart);
 
-            cout << endl << "------ Car 1: ";
-            cout << RBTest1->model << " ------" << endl;
-            cout << "Liters: " << RBTest1->disp << endl;
-            cout << "Cylinders: " << RBTest1->cylinders << endl;
-            if (RBTest1->fourwd == true) {
-                cout << "4WD" << endl;
-            } else {
-                cout << "2WD" << endl;
-            }
-            cout << "Fuel Type:" << RBTest1->fuel << endl;
-            cout << "Authorized for sale in CA: ";
-            if (RBTest1->salesCA == true) {
-                cout << "Yes" << endl;
-            } else {
-                cout << "No" << endl;
-            }
-            cout << "Standard: " << RBTest1->standard ;
-            cout << " | Description: " << RBTest1->stndDescription << endl;
-            cout << "Underhood ID: " << RBTest1->underhoodID << endl;
-            cout << "Vehicle Class: " << RBTest1->vehicleClass << endl;
-
-            cout << "All Polution Score: " << RBTest1->allPolutionScore << endl;
-            cout << "City MPG: " << RBTest1->cityMPG << endl;
-            cout << "HWY MPG: " << RBTest1->hwyMPG << endl;
-            cout << "Combined MPG: " << RBTest1->cmbMPG << endl;
-            cout << "Greenhouse Gas Score: " << RBTest1->ghgScore << endl;
-            cout << "SmartWay Classified: ";
-            if (RBTest1->smartWay == true) {
-                cout << "Yes" << endl;
-            } else {
-                cout << "No" << endl;
-            }
-            cout << "Combined CO2 Index: " << RBTest1->combCO2 << endl;
-
-            for (int i = 0; i < RBTest1->duplicates.size(); i++) {
-                Registry::Vehicle* temp = RBTest1->duplicates.at(i);
-
-                cout << endl;
-                cout << "-- Other car with the same Model " << i + 1 << ": ";
-
-                cout << temp->model << endl;
-                cout << "Liters: " << temp->disp << endl;
-                cout << "Cylinders: " << temp->cylinders << endl;
-                if (temp->fourwd == true) {
+            if(RBTest1 != nullptr){
+                cout << endl << "------ Car 1: ";
+                cout << RBTest1->model << " ------" << endl;
+                cout << "Liters: " << RBTest1->disp << endl;
+                cout << "Cylinders: " << RBTest1->cylinders << endl;
+                if (RBTest1->fourwd == true) {
                     cout << "4WD" << endl;
                 } else {
                     cout << "2WD" << endl;
                 }
-                cout << "Fuel Type:" << temp->fuel << endl;
+                cout << "Fuel Type:" << RBTest1->fuel << endl;
                 cout << "Authorized for sale in CA: ";
-                if (temp->salesCA == true) {
+                if (RBTest1->salesCA == true) {
                     cout << "Yes" << endl;
                 } else {
                     cout << "No" << endl;
                 }
-                cout << "Standard: " << temp->standard ;
-                cout << " | Description: " << temp->stndDescription << endl;
-                cout << "Underhood ID: " << temp->underhoodID << endl;
-                cout << "Vehicle Class: " << temp->vehicleClass << endl;
+                cout << "Standard: " << RBTest1->standard ;
+                cout << " | Description: " << RBTest1->stndDescription << endl;
+                cout << "Underhood ID: " << RBTest1->underhoodID << endl;
+                cout << "Vehicle Class: " << RBTest1->vehicleClass << endl;
 
-                cout << "All Polution Score: " << temp->allPolutionScore << endl;
-                cout << "City MPG: " << temp->cityMPG << endl;
-                cout << "HWY MPG: " << temp->hwyMPG << endl;
-                cout << "Combined MPG: " << temp->cmbMPG << endl;
-                cout << "Greenhouse Gas Score: " << temp->ghgScore << endl;
+                cout << "All Polution Score: " << RBTest1->allPolutionScore << endl;
+                cout << "City MPG: " << RBTest1->cityMPG << endl;
+                cout << "HWY MPG: " << RBTest1->hwyMPG << endl;
+                cout << "Combined MPG: " << RBTest1->cmbMPG << endl;
+                cout << "Greenhouse Gas Score: " << RBTest1->ghgScore << endl;
                 cout << "SmartWay Classified: ";
-                if (temp->smartWay == true) {
+                if (RBTest1->smartWay == true) {
                     cout << "Yes" << endl;
                 } else {
                     cout << "No" << endl;
                 }
-                if (temp->fuel == "Electricity") {
-                    cout << "Combined CO2 Index: " << Grid->GetCO2(state, temp->cmbMPG) << endl;
-                } else {
-                    cout << "Combined CO2 Index: " << temp->combCO2 << endl;
+                cout << "Combined CO2 Index: " << RBTest1->combCO2 << endl;
+
+                for (int i = 0; i < RBTest1->duplicates.size(); i++) {
+                    Registry::Vehicle* temp = RBTest1->duplicates.at(i);
+
+                    cout << endl;
+                    cout << "-- Other car with the same Model " << i + 1 << ": ";
+
+                    cout << temp->model << endl;
+                    cout << "Liters: " << temp->disp << endl;
+                    cout << "Cylinders: " << temp->cylinders << endl;
+                    if (temp->fourwd == true) {
+                        cout << "4WD" << endl;
+                    } else {
+                        cout << "2WD" << endl;
+                    }
+                    cout << "Fuel Type:" << temp->fuel << endl;
+                    cout << "Authorized for sale in CA: ";
+                    if (temp->salesCA == true) {
+                        cout << "Yes" << endl;
+                    } else {
+                        cout << "No" << endl;
+                    }
+                    cout << "Standard: " << temp->standard ;
+                    cout << " | Description: " << temp->stndDescription << endl;
+                    cout << "Underhood ID: " << temp->underhoodID << endl;
+                    cout << "Vehicle Class: " << temp->vehicleClass << endl;
+
+                    cout << "All Polution Score: " << temp->allPolutionScore << endl;
+                    cout << "City MPG: " << temp->cityMPG << endl;
+                    cout << "HWY MPG: " << temp->hwyMPG << endl;
+                    cout << "Combined MPG: " << temp->cmbMPG << endl;
+                    cout << "Greenhouse Gas Score: " << temp->ghgScore << endl;
+                    cout << "SmartWay Classified: ";
+                    if (temp->smartWay == true) {
+                        cout << "Yes" << endl;
+                    } else {
+                        cout << "No" << endl;
+                    }
+                    if (temp->fuel == "Electricity") {
+                        cout << "Combined CO2 Index: " << Grid->GetCO2(state, temp->cmbMPG) << endl;
+                    } else {
+                        cout << "Combined CO2 Index: " << temp->combCO2 << endl;
+                    }
                 }
             }
+
+            else{
+                cout << endl << "Sorry, car 1 is not in our database, try again" << endl;
+            }
+
 
             // Same search in R/B and Splay - Car 2
             auto RBStart2 = chrono::high_resolution_clock::now();
@@ -374,77 +387,35 @@ int main() {
             auto SplayStop2 = chrono::high_resolution_clock::now();
             auto SplayDur2 = chrono::duration_cast<chrono::nanoseconds>(SplayStop2 - SplayStart2);
 
-            cout << endl << endl << "------ Car 2: ";
-            cout << RBTest2->model << " ------" << endl;
-            cout << "Liters: " << RBTest2->disp << endl;
-            cout << "Cylinders: " << RBTest2->cylinders << endl;
-            if (RBTest2->fourwd == true) {
-                cout << "4WD" << endl;
-            } else {
-                cout << "2WD" << endl;
-            }
-            cout << "Fuel Type:" << RBTest2->fuel << endl;
-            cout << "Authorized for sale in CA: ";
-            if (RBTest2->salesCA == true) {
-                cout << "Yes" << endl;
-            } else {
-                cout << "No" << endl;
-            }
-            cout << "Standard: " << RBTest2->standard ;
-            cout << " | Description: " << RBTest2->stndDescription << endl;
-            cout << "Underhood ID: " << RBTest2->underhoodID << endl;
-            cout << "Vehicle Class: " << RBTest2->vehicleClass << endl;
-
-            cout << "All Polution Score: " << RBTest2->allPolutionScore << endl;
-            cout << "City MPG: " << RBTest2->cityMPG << endl;
-            cout << "HWY MPG: " << RBTest2->hwyMPG << endl;
-            cout << "Combined MPG: " << RBTest2->cmbMPG << endl;
-            cout << "Greenhouse Gas Score: " << RBTest2->ghgScore << endl;
-            cout << "SmartWay Classified: ";
-            if (RBTest2->smartWay == true) {
-                cout << "Yes" << endl;
-            } else {
-                cout << "No" << endl;
-            }
-            if (RBTest2->fuel == "Electricity") {
-                cout << "Combined CO2 Index: " << Grid->GetCO2(state, RBTest2->cmbMPG) << endl;
-            } else {
-                cout << "Combined CO2 Index: " << RBTest2->combCO2 << endl;
-            }
-
-            for (int i = 0; i < RBTest2->duplicates.size(); i++) {
-                Registry::Vehicle* temp = RBTest2->duplicates.at(i);
-
-                cout << endl;
-                cout << "-- Other car with the same Model " << i + 1 << ": ";
-
-                cout << temp->model << endl;
-                cout << "Liters: " << temp->disp << endl;
-                cout << "Cylinders: " << temp->cylinders << endl;
-                if (temp->fourwd == true) {
+            if(RBTest2 != nullptr){
+                cout << endl << endl << "------ Car 2: ";
+                cout << RBTest2->model << " ------" << endl;
+                cout << "Liters: " << RBTest2->disp << endl;
+                cout << "Cylinders: " << RBTest2->cylinders << endl;
+                if (RBTest2->fourwd == true) {
                     cout << "4WD" << endl;
                 } else {
                     cout << "2WD" << endl;
                 }
-                cout << "Fuel Type:" << temp->fuel << endl;
+                cout << "Fuel Type:" << RBTest2->fuel << endl;
                 cout << "Authorized for sale in CA: ";
-                if (temp->salesCA == true) {
+                if (RBTest2->salesCA == true) {
                     cout << "Yes" << endl;
                 } else {
                     cout << "No" << endl;
                 }
-                cout << "Standard: " << temp->standard ;
-                cout << " | Description: " << temp->stndDescription << endl;
-                cout << "Underhood ID: " << temp->underhoodID << endl;
-                cout << "Vehicle Class: " << temp->vehicleClass << endl;
+                cout << "Standard: " << RBTest2->standard ;
+                cout << " | Description: " << RBTest2->stndDescription << endl;
+                cout << "Underhood ID: " << RBTest2->underhoodID << endl;
+                cout << "Vehicle Class: " << RBTest2->vehicleClass << endl;
 
-                cout << "All Polution Score: " << temp->allPolutionScore << endl;
-                cout << "City MPG: " << temp->cityMPG << endl;
-                cout << "HWY MPG: " << temp->hwyMPG << endl;
-                cout << "Combined MPG: " << temp->cmbMPG << endl;
-                cout << "Greenhouse Gas Score: " << temp->ghgScore << endl;
+                cout << "All Polution Score: " << RBTest2->allPolutionScore << endl;
+                cout << "City MPG: " << RBTest2->cityMPG << endl;
+                cout << "HWY MPG: " << RBTest2->hwyMPG << endl;
+                cout << "Combined MPG: " << RBTest2->cmbMPG << endl;
+                cout << "Greenhouse Gas Score: " << RBTest2->ghgScore << endl;
                 cout << "SmartWay Classified: ";
-                if (temp->smartWay == true) {
+                if (RBTest2->smartWay == true) {
                     cout << "Yes" << endl;
                 } else {
                     cout << "No" << endl;
@@ -454,36 +425,86 @@ int main() {
                 } else {
                     cout << "Combined CO2 Index: " << RBTest2->combCO2 << endl;
                 }
+
+                for (int i = 0; i < RBTest2->duplicates.size(); i++) {
+                    Registry::Vehicle* temp = RBTest2->duplicates.at(i);
+
+                    cout << endl;
+                    cout << "-- Other car with the same Model " << i + 1 << ": ";
+
+                    cout << temp->model << endl;
+                    cout << "Liters: " << temp->disp << endl;
+                    cout << "Cylinders: " << temp->cylinders << endl;
+                    if (temp->fourwd == true) {
+                        cout << "4WD" << endl;
+                    } else {
+                        cout << "2WD" << endl;
+                    }
+                    cout << "Fuel Type:" << temp->fuel << endl;
+                    cout << "Authorized for sale in CA: ";
+                    if (temp->salesCA == true) {
+                        cout << "Yes" << endl;
+                    } else {
+                        cout << "No" << endl;
+                    }
+                    cout << "Standard: " << temp->standard ;
+                    cout << " | Description: " << temp->stndDescription << endl;
+                    cout << "Underhood ID: " << temp->underhoodID << endl;
+                    cout << "Vehicle Class: " << temp->vehicleClass << endl;
+
+                    cout << "All Polution Score: " << temp->allPolutionScore << endl;
+                    cout << "City MPG: " << temp->cityMPG << endl;
+                    cout << "HWY MPG: " << temp->hwyMPG << endl;
+                    cout << "Combined MPG: " << temp->cmbMPG << endl;
+                    cout << "Greenhouse Gas Score: " << temp->ghgScore << endl;
+                    cout << "SmartWay Classified: ";
+                    if (temp->smartWay == true) {
+                        cout << "Yes" << endl;
+                    } else {
+                        cout << "No" << endl;
+                    }
+                    if (RBTest2->fuel == "Electricity") {
+                        cout << "Combined CO2 Index: " << Grid->GetCO2(state, RBTest2->cmbMPG) << endl;
+                    } else {
+                        cout << "Combined CO2 Index: " << RBTest2->combCO2 << endl;
+                    }
+                }
+            }
+            else{
+                cout << "Sorry, car 2 is not in our database, try again" << endl;
             }
 
-            cout << endl << "Time it took to search for car 1 (R/B tree): " << RBDur1.count() << " nanoseconds" << endl;
-            cout << "Time it took to search for car 1 (Splay tree): " << SplayDur1.count() << " nanoseconds" << endl;
+            if (RBTest1 != nullptr and RBTest2 != nullptr){
+                cout << endl << "Time it took to search for car 1 (R/B tree): " << RBDur1.count() << " nanoseconds" << endl;
+                cout << "Time it took to search for car 1 (Splay tree): " << SplayDur1.count() << " nanoseconds" << endl;
 
-            // Calculate speedups
-            if (RBDur1.count() > SplayDur1.count()){
-                double improvement = ((double)RBDur1.count() - SplayDur1.count()) / RBDur1.count() * 100.0;
-                cout << "Splay Tree search was " << fixed << setprecision(2) << improvement << "% faster than Red-Black Tree search for Car 1!" << endl;
-            } else if (RBDur1.count() < SplayDur1.count()){
-                double improvement = ((double)SplayDur1.count() - RBDur1.count()) / SplayDur1.count() * 100.0;
-                cout << "Red-Black Tree search was " << fixed << setprecision(2) << improvement << "% faster than Splay Tree search for Car 1!" << endl;
-            } else{
-                cout << "Both searches took the exact same time! Wow!" << endl;
+                // Calculate speedups
+                if (RBDur1.count() > SplayDur1.count()){
+                    double improvement = ((double)RBDur1.count() - SplayDur1.count()) / RBDur1.count() * 100.0;
+                    cout << "Splay Tree search was " << fixed << setprecision(2) << improvement << "% faster than Red-Black Tree search for Car 1!" << endl;
+                } else if (RBDur1.count() < SplayDur1.count()){
+                    double improvement = ((double)SplayDur1.count() - RBDur1.count()) / SplayDur1.count() * 100.0;
+                    cout << "Red-Black Tree search was " << fixed << setprecision(2) << improvement << "% faster than Splay Tree search for Car 1!" << endl;
+                } else{
+                    cout << "Both searches took the exact same time! Wow!" << endl;
+                }
+
+                cout << endl << "Time it took to search for car 2 (R/B tree): " << RBDur2.count() << " nanoseconds" << endl;
+                cout << "Time it took to search for car 2 (Splay tree): " << SplayDur2.count() << " nanoseconds" << endl;
+
+                if (RBDur2.count() > SplayDur2.count()){
+                    double improvement = ((double)RBDur2.count() - SplayDur2.count()) / RBDur2.count() * 100.0;
+                    cout << "Splay Tree search was " << fixed << setprecision(2) << improvement << "% faster than Red-Black Tree search for Car 2!" << endl;
+                } else if (RBDur2.count() < SplayDur2.count()){
+                    double improvement = ((double)SplayDur2.count() - RBDur2.count()) / SplayDur2.count() * 100.0;
+                    cout << "Red-Black Tree search was " << fixed << setprecision(2) << improvement << "% faster than Splay Tree search for Car 2!" << endl;
+                } else{
+                    cout << "Both searches took the exact same time! Wow!" << endl;
+                }
+            }
+            cout << endl << endl;
             }
 
-            cout << endl << "Time it took to search for car 2 (R/B tree): " << RBDur2.count() << " nanoseconds" << endl;
-            cout << "Time it took to search for car 2 (Splay tree): " << SplayDur2.count() << " nanoseconds" << endl;
-
-            if (RBDur2.count() > SplayDur2.count()){
-                double improvement = ((double)RBDur2.count() - SplayDur2.count()) / RBDur2.count() * 100.0;
-                cout << "Splay Tree search was " << fixed << setprecision(2) << improvement << "% faster than Red-Black Tree search for Car 2!" << endl;
-            } else if (RBDur2.count() < SplayDur2.count()){
-                double improvement = ((double)SplayDur2.count() - RBDur2.count()) / SplayDur2.count() * 100.0;
-                cout << "Red-Black Tree search was " << fixed << setprecision(2) << improvement << "% faster than Splay Tree search for Car 2!" << endl;
-            } else{
-                cout << "Both searches took the exact same time! Wow!" << endl;
-            }
-        }
-        cout << endl << endl;
     }
 
     cout << endl << endl << "Thank you for using the 2024 Vehicle Emissions Database, have a great day!" << endl;
