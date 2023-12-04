@@ -10,13 +10,13 @@ using namespace std;
 int main() {
 
     EPAGrid* Grid = new EPAGrid();
-    Grid->Load("eGRID2021_summary_tables.csv");
+    Grid->Load("C:\\Users\\zayns\\CLionProjects\\DSAP3\\eGRID2021_summary_tables.csv");
 
     vector<Registry*> Registries;
 
     // Data sourced from: https://www.fueleconomy.gov/feg/download.shtml
     Registry* Data2014 = new Registry();
-    Data2014->Load("epa2014.csv");
+    Data2014->Load("C:\\Users\\zayns\\CLionProjects\\DSAP3\\epa2014.csv");
     Registries.push_back(Data2014);
     Registry* Data2015 = new Registry();
     Data2015->Load("epa2015.csv");
@@ -114,9 +114,9 @@ int main() {
         }
     }
 
-    cout << "Welcome to the 2024 Vehicle Emmissions Data Base" << endl;
+    cout << "Welcome to the 2024 Vehicle Emmissions Data Base!" << endl;
     cout << "Data is availabe from the year 2014 through the year 2024" << endl;
-    cout << "Please enter the year you would like to search : " << endl;
+    cout << endl << "Please enter the year you would like to search : " << endl;
 
     string year;
     getline(cin, year);
@@ -124,13 +124,12 @@ int main() {
     RBTree* RB = rbTrees.at(index);
     SplayTree* Splay = splayTrees.at(index);
 
+    cout << "What state do you live in? Input the 2 letter code in all caps: " << endl;
+    string st;
+    getline(cin, st);
+    EPAGrid::State* state = Grid->Access(st);
     bool exit = false;
     while (!exit){
-        cout << "What state do you live in? Input the 2 letter code in all caps: " << endl;
-        string st;
-        getline(cin, st);
-        EPAGrid::State* state = Grid->Access(st);
-
         cout << "How many cars would you like to search for? (1 or 2 cars, 0 to exit program): " << endl;
         string numCars;
         getline(cin, numCars);
@@ -138,7 +137,7 @@ int main() {
         if (numCars == "0"){
             break;
         }
-         // USER INTERFACE FOR 1 CAR SEARCH
+            // USER INTERFACE FOR 1 CAR SEARCH
         else if (numCars == "1"){
             cout << "Enter the make and model of the car you want to search for: " << endl;
             string car1;
@@ -252,7 +251,7 @@ int main() {
             }
         }
 
-        // USER INTERFACE FOR 2 CAR SEARCH
+            // USER INTERFACE FOR 2 CAR SEARCH
         else if (numCars == "2"){
 
             cout << "Enter the make and model of the first car you want to search for: " << endl;
@@ -475,6 +474,6 @@ int main() {
         cout << endl << endl;
     }
 
-    cout << endl << endl << "Thank you for using the 2024 Vehicle Emissions Database, Have a great day!" << endl;
+    cout << endl << endl << "Thank you for using the 2024 Vehicle Emissions Database, have a great day!" << endl;
     return 0;
 }
