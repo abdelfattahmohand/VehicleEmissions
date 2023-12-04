@@ -10,13 +10,13 @@ using namespace std;
 int main() {
 
     EPAGrid* Grid = new EPAGrid();
-    Grid->Load("C:\\Users\\zayns\\CLionProjects\\DSAP3\\eGRID2021_summary_tables.csv");
+    Grid->Load("eGRID2021_summary_tables.csv");
 
     vector<Registry*> Registries;
 
     // Data sourced from: https://www.fueleconomy.gov/feg/download.shtml
     Registry* Data2014 = new Registry();
-    Data2014->Load("C:\\Users\\zayns\\CLionProjects\\DSAP3\\epa2014.csv");
+    Data2014->Load("epa2014.csv");
     Registries.push_back(Data2014);
 
     Registry* Data2015 = new Registry();
@@ -370,11 +370,9 @@ int main() {
                     }
                 }
             }
-
             else{
                 cout << endl << "Sorry, car 1 is not in our database, try again" << endl;
             }
-
 
             // Same search in R/B and Splay - Car 2
             auto RBStart2 = chrono::high_resolution_clock::now();
