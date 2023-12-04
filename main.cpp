@@ -18,37 +18,49 @@ int main() {
     Registry* Data2014 = new Registry();
     Data2014->Load("epa2014.csv");
     Registries.push_back(Data2014);
+    
     Registry* Data2015 = new Registry();
     Data2015->Load("epa2015.csv");
     Registries.push_back(Data2015);
+    
     Registry* Data2016 = new Registry();
     Data2016->Load("epa2016.csv");
     Registries.push_back(Data2016);
+    
     Registry* Data2017 = new Registry();
     Data2017->Load("epa2017.csv");
     Registries.push_back(Data2017);
+    
     Registry* Data2018 = new Registry();
     Data2018->Load("epa2018.csv");
     Registries.push_back(Data2018);
+    
     Registry* Data2019 = new Registry();
     Data2019->Load("epa2019.csv");
     Registries.push_back(Data2019);
+    
     Registry* Data2020 = new Registry();
     Data2020->Load("epa2020.csv");
     Registries.push_back(Data2020);
+    
     Registry* Data2021 = new Registry();
     Data2021->Load("epa2021.csv");
     Registries.push_back(Data2021);
+    
     Registry* Data2022 = new Registry();
     Data2022->Load("epa2022.csv");
     Registries.push_back(Data2022);
+    
     Registry* Data2023 = new Registry();
     Data2023->Load("epa2023.csv");
     Registries.push_back(Data2023);
+    
     Registry* Data2024 = new Registry();
     Data2024->Load("epa2024.csv");
     Registries.push_back(Data2024);
 
+    
+    // Making trees for different years
     vector<RBTree*> rbTrees;
     vector<SplayTree*> splayTrees;
 
