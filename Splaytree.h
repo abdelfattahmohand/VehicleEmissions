@@ -60,7 +60,7 @@ void SplayTree::rotateLeft(SplayTreeNode* node) {
     node->parent = rightChild;                 // Update node's parent
 }
 
-// Rotate right is mirror of Rotate left
+// rotateRight is mirror of RotateLeft
 void SplayTree::rotateRight(SplayTreeNode* node) {
     if (node == nullptr || node->left == nullptr) return;  // Can't rotate right if node or node's left child is null
 
@@ -177,7 +177,6 @@ Registry::Vehicle* SplayTree::search(const string& model) {
 
     // Splay at the last visited node if the exact vehicle isn't found
     if (lastVisited != nullptr) {
-
         splay(lastVisited);
     }
 
@@ -195,31 +194,4 @@ void SplayTree::deleteTree(SplayTreeNode* node) {
 
 SplayTree::~SplayTree() {
     deleteTree(root);  // Start the recursive deletion from the root
-}
-
-void SplayTree::BFS() const {
-    if (root == nullptr) {
-        return;  // The tree is empty
-    }
-
-    std::queue<SplayTreeNode*> queue;
-    queue.push(root);
-
-    while (!queue.empty()) {
-        SplayTreeNode* current = queue.front();
-        queue.pop();
-
-        // Process the current node (e.g., print its value)
-        std::cout << "Model: " << current->vehicle->model
-                  << ", Transmission: " << current->vehicle->transmission
-                  << ", combCO2: " << current->vehicle->combCO2 << std::endl;
-
-        // Add left and right children to the queue
-        if (current->left != nullptr) {
-            queue.push(current->left);
-        }
-        if (current->right != nullptr) {
-            queue.push(current->right);
-        }
-    }
 }
