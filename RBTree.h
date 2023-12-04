@@ -7,6 +7,7 @@ using namespace std;
 
 // Citation: https://algorithmtutor.com/Data-Structures/Tree/Red-Black-Trees/
 // Citation: https://www.geeksforgeeks.org/c-program-red-black-tree-insertion/
+// Citation: https://www.youtube.com/playlist?list=PLOXdJ6q8iu4MneI9gySCHiyzAQcveqkIO
 
 const bool RED = true;
 const bool BLACK = false;
@@ -65,7 +66,7 @@ void RBTree::rotateLeft(RBTreeNode* &root, RBTreeNode* &pt) {
     pt->parent = pt_right; // Update pt's parent
 }
 
-// rotateRight is just inverse of rorateLeft:
+// rotateRight is just inverse of rotateLeft:
 void RBTree::rotateRight(RBTreeNode* &root, RBTreeNode* &pt) {
     RBTreeNode* pt_left = pt->left; // Node to the left of pt
 
@@ -153,8 +154,6 @@ void RBTree::fixViolation(RBTreeNode* &root, RBTreeNode* &pt) {
 }
 
 void RBTree::insert(Registry::Vehicle* vehicle) {
-
-    //cout << vehicle << endl;
     // Step 1: Perform standard BST insert
     RBTreeNode *parent = nullptr;
     RBTreeNode *current = root;
@@ -165,7 +164,6 @@ void RBTree::insert(Registry::Vehicle* vehicle) {
         parent = current;
 
         if (vehicle->model == current->vehicle->model) {
-            //cout << current->vehicle->model << current->vehicle->combCO2 << " " << current->vehicle << endl;
             current->vehicle->AddDuplicate(vehicle);
             insert = false;
             break;
@@ -196,34 +194,6 @@ void RBTree::insert(Registry::Vehicle* vehicle) {
         // Step 2: Fix Red Black Tree violations
         fixViolation(root, pt);
     }
-}
-
-// BFS for debugging:
-void RBTree::BFS() const {
-    if (root == nullptr) return;
-
-    std::queue<RBTreeNode*> q;
-    q.push(root);
-
-    while (!q.empty()) {
-        RBTreeNode* current = q.front();
-        q.pop();
-
-        // Process the current node
-        std::cout << current->vehicle->model << " (" << (current->color == RED ? "R" : "B") << ") ";
-
-        // Enqueue left child
-        if (current->left != nullptr) {
-            q.push(current->left);
-        }
-
-        // Enqueue right child
-        if (current->right != nullptr) {
-            q.push(current->right);
-        }
-    }
-
-    std::cout << std::endl;
 }
 
 Registry::Vehicle* RBTree::search(const string& model) const {
