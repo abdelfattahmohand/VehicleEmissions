@@ -376,12 +376,12 @@ int main() {
 
             // Same search in R/B and Splay - Car 2
             auto RBStart2 = chrono::high_resolution_clock::now();
-            Registry::Vehicle* RBTest2 = RB->search(car1);
+            Registry::Vehicle* RBTest2 = RB->search(car2);
             auto RBStop2 = chrono::high_resolution_clock::now();
             auto RBDur2 = chrono::duration_cast<chrono::nanoseconds>(RBStop2 - RBStart2);
 
             auto SplayStart2 = chrono::high_resolution_clock::now();
-            Registry::Vehicle* SplayTest2 = Splay->search(car1);
+            Registry::Vehicle* SplayTest2 = Splay->search(car2);
             auto SplayStop2 = chrono::high_resolution_clock::now();
             auto SplayDur2 = chrono::duration_cast<chrono::nanoseconds>(SplayStop2 - SplayStart2);
 
@@ -469,7 +469,7 @@ int main() {
                 }
             }
             else{
-                cout << "Sorry, car 2 is not in our database, try again" << endl;
+                cout << endl << "Sorry, car 2 is not in our database, try again" << endl;
             }
 
             if (RBTest1 != nullptr and RBTest2 != nullptr){
@@ -502,7 +502,6 @@ int main() {
             }
             cout << endl << endl;
             }
-
     }
 
     cout << endl << endl << "Thank you for using the 2024 Vehicle Emissions Database, have a great day!" << endl;
