@@ -260,6 +260,7 @@ int main() {
                     cout << "Red-Black Tree search was " << fixed << setprecision(2) << improvement << "% faster than Splay Tree search!" << endl;
                 } else{
                     cout << "Both searches took the exact same time! Wow!" << endl;
+                    cout << "------------------------------------------------------------------------" << endl;
                 }
             }
 
